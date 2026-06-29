@@ -1,4 +1,5 @@
 ﻿#include "app.h"
+#include "utils.h"
 #include <string>
 #include <windows.h>
 #include <objbase.h>
@@ -37,7 +38,7 @@ void App::LoadConfig() {
     wchar_t path[MAX_PATH];
     GetModuleFileNameW(nullptr, path, MAX_PATH);
     std::wstring ws(path);
-    std::string exePath(ws.begin(), ws.end());
+    std::string exePath = WStringToUtf8(ws);
     size_t pos = exePath.find_last_of('\\');
     if (pos != std::string::npos)
         exePath = exePath.substr(0, pos);
@@ -85,7 +86,7 @@ void App::OnHotkeyTriggered() {
     // so the foreground window is still the user's active app (Notepad, browser, etc.)
     // and direct EM_GETSEL read or SendInput Ctrl+C target the correct window.
     std::wstring selectedText = clipboard_.GetSelectedText();
-    std::string text = WStringToString(selectedText);
+    std::string text = WStringToUtf8(selectedText);
 
     // Show the window after capturing text
     if (hwnd_) {
@@ -137,15 +138,3 @@ void App::SetStatus(const std::string& status, bool isError) {
     ui_.SetStatus(status, isError);
 }
 
-std::string App::WStringToString(const std::wstring& wstr) {
-    if (wstr.empty())
-        return {};
-
-    int len = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
-    if (len <= 0)
-        return {};
-
-    std::string result(len - 1, '\0');
-    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &result[0], len, nullptr, nullptr);
-    return result;
-}

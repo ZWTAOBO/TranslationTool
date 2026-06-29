@@ -321,12 +321,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         mergeConfig.MergeMode = true;
         const char* fallbackFonts[] = {
             "C:\\Windows\\Fonts\\malgun.ttf",     // Korean (Malgun Gothic)
-            "C:\\Windows\\Fonts\\gulim.ttc",      // Korean (Gulim)
             "C:\\Windows\\Fonts\\tahoma.ttf",     // Arabic + Thai (Tahoma)
             "C:\\Windows\\Fonts\\seguiemj.ttf",   // Emoji fallback (Segoe UI Emoji)
         };
         for (auto* ff : fallbackFonts) {
-            io.Fonts->AddFontFromFileTTF(ff, 16.0f, &mergeConfig, glyphRanges.Data);
+            if (GetFileAttributesA(ff) != INVALID_FILE_ATTRIBUTES) {
+                io.Fonts->AddFontFromFileTTF(ff, 16.0f, &mergeConfig, glyphRanges.Data);
+            }
         }
     }
 

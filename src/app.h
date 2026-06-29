@@ -28,7 +28,6 @@ public:
 
 private:
     void PerformTranslation(const std::string& text, const std::string& targetLang);
-    static std::string WStringToString(const std::wstring& wstr);
 
     Config config_;
     Translator translator_;

@@ -25,7 +25,7 @@ public:
         Settings  // Settings panel
     };
 
-    void SetViewMode(ViewMode mode);
+    void SetViewMode(ViewMode mode) { viewMode_ = mode; }
     ViewMode GetViewMode() const { return viewMode_; }
     int GetTargetLangIndex() const { return toLangIndex_; }
     void ShowSettings();

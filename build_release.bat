@@ -8,7 +8,6 @@ set VSWHERE="C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.ex
 echo === Looking for Visual Studio (x64 tools) ===
 set VSCMD=
 
-REM Hardcoded paths for various VS versions
 for %%d in (
     "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat"
     "C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Auxiliary\Build\vcvars64.bat"
@@ -25,7 +24,6 @@ for %%d in (
     )
 )
 
-REM Fallback: use vswhere to auto-detect any VS installation
 if exist %VSWHERE% (
     for /f "usebackq tokens=*" %%i in (`%VSWHERE% -latest -products * -property installationPath`) do (
         if exist "%%i\VC\Auxiliary\Build\vcvars64.bat" (
@@ -36,8 +34,7 @@ if exist %VSWHERE% (
 )
 
 echo ERROR: Visual Studio (x64 tools) not found.
-echo Install Visual Studio with "Desktop development with C++" workload, or
-echo run this script from a "Developer Command Prompt for VS".
+echo Install Visual Studio with "Desktop development with C++" workload.
 pause
 exit /b 1
 
@@ -51,8 +48,8 @@ if !ERRORLEVEL! neq 0 (
 )
 
 echo.
-echo === Rebuilding TranslationTool (Debug x64) ===
-msbuild TranslationTool.vcxproj /p:Configuration=Debug /p:Platform=x64 /t:Rebuild
+echo === Building TranslationTool (Release x64) ===
+msbuild "%~dp0TranslationTool.vcxproj" /p:Configuration=Release /p:Platform=x64 /t:Rebuild
 if !ERRORLEVEL! neq 0 (
     echo ERROR: Build failed (exit code !ERRORLEVEL!).
     pause
@@ -61,12 +58,5 @@ if !ERRORLEVEL! neq 0 (
 
 echo.
 echo === Build succeeded ===
-if exist "%~dp0x64\Debug\TranslationTool.exe" (
-    echo Starting TranslationTool...
-    start "" "%~dp0x64\Debug\TranslationTool.exe"
-) else (
-    echo WARNING: Expected exe not found at %~dp0x64\Debug\TranslationTool.exe
-    echo Searching for it...
-    dir /s "%~dp0*.exe"
-    pause
-)
+echo Output: %~dp0x64\Release\TranslationTool.exe
+pause

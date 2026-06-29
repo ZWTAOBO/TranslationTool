@@ -45,10 +45,6 @@ void UI::SetTranslationInput(const std::string& text) {
     strcpy_s(inputBuf_, text.c_str());
 }
 
-void UI::SetViewMode(ViewMode mode) {
-    viewMode_ = mode;
-}
-
 void UI::OnTranslateResult(const std::string& src, const std::string& dst,
                            const std::string& detectedLang,
                            const std::string& engineName) {

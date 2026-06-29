@@ -21,6 +21,21 @@ inline std::string UrlEncode(const std::string& input) {
     return escaped.str();
 }
 
+// ── Convert wstring to UTF-8 string using WideCharToMultiByte ────────────────
+// Unlike std::string(wstr.begin(), wstr.end()), this preserves non-ASCII
+// characters and does NOT trigger MSVC debug CRT assertions on narrowing.
+
+inline std::string WStringToUtf8(const std::wstring& wstr) {
+    if (wstr.empty())
+        return {};
+    int len = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    if (len <= 0)
+        return {};
+    std::string result(len - 1, '\0');
+    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &result[0], len, nullptr, nullptr);
+    return result;
+}
+
 // ── Read a WinHTTP response body into a string ───────────────────────────────
 // Returns false on read error.
 

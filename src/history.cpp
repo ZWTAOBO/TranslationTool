@@ -51,7 +51,7 @@ std::string HistoryEntry::GetTimeString() const {
     return TimePointToString(timestamp);
 }
 
-History::History() : maxSize_(500) {}
+History::History() = default;
 History::~History() = default;
 
 void History::Load(const std::string& filePath) {

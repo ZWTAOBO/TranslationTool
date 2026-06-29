@@ -1,4 +1,5 @@
 ﻿#include "config.h"
+#include "utils.h"
 #include <fstream>
 #include <iostream>
 #include <windows.h>
@@ -34,7 +35,7 @@ Config::Config()
     GetModuleFileNameW(nullptr, path, MAX_PATH);
     exePath_ = path;
     std::wstring ws(path);
-    std::string exeDir(ws.begin(), ws.end());
+    std::string exeDir = WStringToUtf8(ws);
     size_t pos = exeDir.find_last_of('\\');
     if (pos != std::string::npos)
         exeDir = exeDir.substr(0, pos);
