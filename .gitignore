@@ -1,0 +1,37 @@
+# ── Build output ──
+x64/
+Debug/
+Release/
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.log
+*.tlog
+*.lastbuildstate
+
+# ── Visual Studio ──
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+*.sln.docstates
+*.suo
+*.user
+
+# ── Runtime data (contains API keys / user data) ──
+config.json
+history.json
+
+# ── OS artifacts ──
+nul
+Thumbs.db
+.DS_Store
+
+# ── IDE / editor ──
+.vscode/
+.idea/
+*.swp
+
+# ── OpenCode ──
+.omo/
